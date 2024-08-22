@@ -1,0 +1,38 @@
+-- for legal team
+
+SELECT c.contract_no , c.ncn , 
+CONVERT(CAST(CONVERT(CONCAT(cu.customer_first_name_lo, " ", cu.customer_last_name_lo) using latin1) as binary) using utf8) 'customer_name_lo' ,
+concat(cu.main_contact_no ,'/', cu.sec_contact_no ) 'Cust_Phone',
+concat (car.car_make ,"-",car.car_model) 'Car Maker',
+av.collateral_engine_no , av.collateral_vin_code , av.number_plate,
+CONVERT(CAST(CONVERT(CONCAT(v1.village_name , '-',v1.village_name_lao) using latin1) as binary) using utf8) 'cust.village',
+CONVERT(CAST(CONVERT(CONCAT(c1.city_name , '-',c1.city_name_lao) using latin1) as binary) using utf8) 'cust.city',
+CONVERT(CAST(CONVERT(CONCAT(p1.province_name ) using latin1) as binary) using utf8) 'cust.province',
+CONVERT(CAST(CONVERT(CONCAT(cu.business_type  ,'-',cu.occupation) using latin1) as binary) using utf8) 'cust.occupation' ,
+CONVERT(CAST(CONVERT(CONCAT(vw.village_name, '-' , cw.city_name , '-' , pw.province_name) using latin1) as binary) using utf8) 'cust.workplace',
+CONVERT(CAST(CONVERT(CONCAT(g.guarantor_first_name_lo , " ", g.guarantor_last_name_lo , '/' , g.guarantor_first_name_en , '-',g.guarantor_last_name_en) using latin1) as binary) using utf8) 'guarantor_name_lo' ,
+CONVERT(CAST(CONVERT(CONCAT(vg.village_name , '-',vg.village_name_lao) using latin1) as binary) using utf8) 'guar.village',
+CONVERT(CAST(CONVERT(CONCAT(cg.city_name , '-',cg.city_name_lao) using latin1) as binary) using utf8) 'guar.city',
+CONVERT(CAST(CONVERT(CONCAT(pg.province_name ) using latin1) as binary) using utf8) 'guar.province',
+g.guarantor_contact_no ,
+CONVERT(CAST(CONVERT(CONCAT(vgw.village_name, '-' , cgw.city_name , '-' , pgw.province_name) using latin1) as binary) using utf8) 'guar.workplace'
+FROM tblcontract c
+left join tblprospect p on (p.id = c.prospect_id)
+left join tblcustomer cu on (p.customer_id = cu.id)
+left join tblprospectasset pa on (pa.prospect_id = p.id)
+left join tblassetvaluation av on (av.id = pa.assetvaluation_id)
+left join tblcar car on (car.id = av.collateral_car_id )
+left join tblguarantor g on (g.prospect_id = p.id)
+left join tblvillage v1 on (cu.address_village_id = v1.id)
+left join tblcity c1 on (c1.id = v1.city_id)
+left join tblprovince p1 on (p1.id = c1.province_id)
+left join tblvillage vw on (cu.work_place_village_id = vw.id)
+left join tblcity cw on (vw.city_id  = cw.id)
+left join tblprovince pw on (pw.id = cw.province_id)
+left join tblvillage vg on (g.address_village_id = vg.id)
+left join tblcity cg on (vg.city_id = cg.id)
+left join tblprovince pg on (pg.id = cg.province_id)
+left join tblvillage vgw on (g.work_place_village_id = vgw.id)
+left join tblcity cgw on (vgw.city_id = cgw.id)
+left join tblprovince pgw on (pgw.id = cgw.province_id)
+where c.status in (4,6,7);
