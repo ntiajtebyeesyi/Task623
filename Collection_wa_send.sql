@@ -1,4 +1,69 @@
--- WA send
+-- WA send to collection
+-- 1. inport data source to frappe table [sme_collection_wa_msg]
+/*
+1. check project list in LMS such as
+1) upload target to LMS
+2) download from LMS (But Org on LMS still not correct so we need to update by manual first)
+3) update table header format / https://docs.google.com/spreadsheets/d/1oD0r2ozGnW8-ejCaU8Bcm36x8DcvphfRf8UjYDCv0lo/edit?gid=1330890754#gid=1330890754 
+4) check the data type (date format in column af-ak-ar-as)
+5) save csv file and import to frappe table [sme_collection_wa_msg]
+*/
+
+-- 2. make file name to frappe table [wa_send_bulk_files]
+/*
+up to you. but last time I do in this spread sheet: https://docs.google.com/spreadsheets/d/1oD0r2ozGnW8-ejCaU8Bcm36x8DcvphfRf8UjYDCv0lo/edit?gid=0#gid=0 
+in table i have column like
+1) id,	file_name,	file_type,	target_date,	staff_incharge,	remark1
+2) if create file name in spread sheet then save csv file and import to frappe table [wa_send_bulk_files]
+*/
+
+-- 3. make list and import to table [wa_send_bulk_list]
+/* run these sql and export to wa_send_bulk_list]*/
+-- BEFORE 5TH
+-- 1.1) Last month 5th
+
+-- 1.2) This month 5th
+
+
+-- BEFORE 10TH
+-- 2.1) Last month 10th
+
+-- 2.2) This month 10th
+
+-- BEFORE 15TH
+-- 3.1) Last month 15th
+
+-- 3.2) This month 15th
+
+
+-- BEFORE 20TH
+-- 4.1) Last month 20th
+
+-- 4.2) This month 20th
+
+
+
+-- BEFORE 25TH
+-- 5.1) Last month 25th
+
+-- 5.2 This month 25th
+
+-- BEFORE 30TH
+-- 6.1) Last month 31st
+
+-- 6.2) This month 31st
+
+/*
+Remark:
+*/
+
+
+
+
+
+
+-- HISTORIES OF SQL
+
 SELECT * FROM sme_collection_wa_msg scwm 
 
 SELECT COUNT(name) FROM sme_collection_wa_msg scwm 
