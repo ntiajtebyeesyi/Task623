@@ -21,6 +21,36 @@ in table i have column like
 /* run these sql and export to wa_send_bulk_list]*/
 -- BEFORE 5TH
 -- 1.1) Last month 5th
+SELECT -- COUNT(name)
+ '' as 'id', 
+concat('856',customer_tel_1) 'WHATSAPP',
+CONCAT('ເຖິງລູກຄ້າທຸກທ່ານທີຮັກແພງ ແລະ ນັບຖື
+ຂໍຂອບໃຈ ທີ່ນຳໃຊ້ບໍລິການ Lao ASEAN Leasing (LALCO) ຂອງພວກເຮົາຕະຫຼອດມາ.
+
+ອີງຕາມ: ສັນຍາເລກທີ *',contract_no,'* ອອກຊື່ ທ່ານ *', customer_name,'* 
+ແລະ ຂໍ້ມູນການຊຳລະຄ່າງວດແລ້ວ, ທ່ານຍັງບໍ່ທັນໄດ້ຊຳລະຄ່າງວດ ຕົ້ນທຶນ・ດອກເບ້ຍ ຂອງວັນທີ່ *5 ເດືອນແລ້ວ* ມາເທື່ອ. ແລະ *ໃນວັນທີ່ 5 ເດືອນນີ້* ກະເປັນມື້ກຳນົດຊຳລະຄ່າງວດຂອງເດືອນນີ້
+ສະນັ້ນ ຈຶ່ງຂໍໃຫ້ທ່ານລູກຄ້າຈ່າຍຊຳລະຄ່າງວດມາພາຍໃນມື້ນີ້. *ເນື່ອງຈາກທ່ານລູກຄ້າໄດ້ຈ່າຍຊ້າໃນເດືອນແລ້ວ,* ໂດຍອີງຕາມເງື່ອນໄຂຂອງສັນຍາແລ້ວ ①ແມ່ນທ່ານລູກຄ້າໄດ້ *ເສຍສິດຂອງເງື່ອນໄຂປິດງວດກ່ອນກຳນົດ* ໃນຕອນເຮັດສັນຍາແລ້ວ. ② ສຳລັບລູກຄ້າທີ່ເຮັດສັນຍາ ດດຕ ແມ່ນ *ສັນຍາຈະຖືກປ່ຽນເປັນສັນຍາໄລຍະຍາວແບບອັດຕະໂນມັດ* ແລະ ③ ສຳລັບລູກຄ້າທີ່ເຮັດ *ສັນຍາເປັນເງິນກີບ-ບາດ ແມ່ນຈະຖືກປ່ຽນເປັນສັນຍາເງິນໂດລາ.*
+ ກ່ຽວກັບການຈ່າຍຊຳລະຄັ້ງຕໍ່ໆໄປ ແລະ ການຕໍ່ສັນຍາເອົາວົງເງິນເພີ່ມ ແມ່ນທ່ານສາມາດໂທປຶກສາກັບພະນັກງານການຕະຫຼາດຂອງບໍລິສັດເຮົາໄດ້, ໃນກໍລະນີທີ່ທ່ານລູກຄ້າຫາກຊຳລະຄ່າງວດໃນມື້ນີ້ບໍ່ທັນແທ້ໆ ແມ່ນໃຫ້ທ່ານລູກຄ້າເຂົ້າມາຫ້ອງການ ເພື່ອປຶກສາກັບພະນັກງານການຕະຫຼາດຜູ້ຮັບຜິດຊອບ. ຖ້າຫາກມີຄວາມຍຸ້ງຍາກໃນການເຂົ້າມາຫ້ອງການ ແມ່ນໃຫ້ທ່ານໂທວີດີໂອ ຜ່ານຊ່ອງທາງ WhatsApp ຫາພະນັກງານການຕະຫຼາດຮັບຜິດຊອບຂອງບໍລິສັດເຮົາໂດຍກົງໄດ້
+
+ສອບຖາມລາຍລະອຽດທີ່:
+ - ພງ ຕັດບິນ: *',em.name,'* ',em.main_contact,'
+ - ພງ ການຕະຫຼາດ: ', ems.name, '- ', ems.main_contact ) 'BODY',
+ case scwm.ccc_name    -- check and update every time, so, if you create in spread sheet you can copy pasted to here
+When 'DAO2329' Then 21
+When 'HONEY361' Then 22
+When 'NOY3804' Then 23
+When 'NUN1603' Then 24
+When 'PHET2349' Then 25
+When 'PUPIEW2451' Then 26
+When 'PAENG2233' Then 27
+When 'NING3627' Then 28
+When 'JEN3694' Then 29
+else ''
+end 'file_id'
+FROM sme_collection_wa_msg scwm 
+LEFT JOIN tabsme_Employees em on (scwm.ccc_no = em.staff_no)
+LEFT JOIN tabsme_Employees ems on (scwm.sales_no = ems.staff_no)
+WHERE paid_or_not not in ('already paid') and target  = 1;
 
 -- 1.2) This month 5th
 
