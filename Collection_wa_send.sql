@@ -11,6 +11,7 @@
 -- before import new data we need to delete old data first. so, we can run this sql
 TRUNCATE TABLE sme_collection_wa_msg; -- for clear table first then will inport new data then will run script
 
+-- then import csv file to table [sme_collection_wa_msg]
 
 
 -- 2. make file name to frappe table [wa_send_bulk_files]
