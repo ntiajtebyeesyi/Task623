@@ -128,7 +128,11 @@ LEFT JOIN tabsme_Employees ems on (scwm.sales_no = ems.staff_no)
 Remark:
 */
 
-
+-- Then run this sql for export csv file for upload to WhatsApp VIP system
+-- for export file to send WA
+SELECT whatsapp 'WHATSAPP', body 'BODY', id 'custom_id'
+FROM wa_send_bulk_list
+WHERE file_id  = 29 -- file_id refer from table [wa_send_bulk_files]
 
 
 
@@ -208,13 +212,10 @@ LEFT JOIN tabsme_Employees ems on (scwm.sales_no = ems.staff_no)
 WHERE paid_or_not not in ('already paid') and target  = 1;
 
 
-
--- for export file to send WA
-SELECT whatsapp 'WHATSAPP', body 'BODY', id 'custom_id'
-FROM wa_send_bulk_list
-WHERE file_id  = 29
-
-
 -- Collection this month before 15
+
+
+
+
 
 
