@@ -8,6 +8,10 @@
 4) check the data type (date format in column af-ak-ar-as)
 5) save csv file and import to frappe table [sme_collection_wa_msg]
 */
+-- before import new data we need to delete old data first. so, we can run this sql
+TRUNCATE TABLE sme_collection_wa_msg; -- for clear table first then will inport new data then will run script
+
+
 
 -- 2. make file name to frappe table [wa_send_bulk_files]
 /*
