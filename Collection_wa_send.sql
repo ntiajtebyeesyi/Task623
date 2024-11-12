@@ -164,7 +164,8 @@ CONCAT('ເຖິງລູກຄ້າທຸກທ່ານທີຮັກແພ
 ສອບຖາມລາຍລະອຽດທີ່:
  - ພງ ຕັດບິນ: *',em.name,'* ',em.main_contact,'
  - ພງ ການຕະຫຼາດ: ', ems.name, '- ', ems.main_contact ) 'BODY',
- case scwm.ccc_name when 'PUPIEW2451' then 13
+ case scwm.ccc_name -- if we need to send for sales follow should be change scwm.ccc_name to scwm.branch
+when 'PUPIEW2451' then 13
 when 'PAENG2233' then 14
 when 'DAO2329' then 15
 when 'NING3627' then 16
