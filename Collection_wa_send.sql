@@ -106,6 +106,7 @@ end 'file_id'
 FROM sme_collection_wa_msg scwm 
 LEFT JOIN tabsme_Employees em on (scwm.ccc_no = em.staff_no)
 LEFT JOIN tabsme_Employees ems on (scwm.sales_no = ems.staff_no)
+WHERE paid_or_not not in ('already paid') and target  = 1 and scwm.seized_car not in ('Got car');
 
 -- BEFORE 20TH
 -- 4.1) Last month 20th
@@ -154,7 +155,7 @@ end 'file_id'
 FROM sme_collection_wa_msg scwm 
 LEFT JOIN tabsme_Employees em on (scwm.ccc_no = em.staff_no)
 LEFT JOIN tabsme_Employees ems on (scwm.sales_no = ems.staff_no)
-
+WHERE paid_or_not not in ('already paid') and target  = 1 and scwm.seized_car not in ('Got car');
 
 
 -- BEFORE 25TH
