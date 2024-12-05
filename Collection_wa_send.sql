@@ -58,7 +58,40 @@ LEFT JOIN tabsme_Employees ems on (scwm.sales_no = ems.staff_no)
 WHERE paid_or_not not in ('already paid') and target  = 1 and scwm.seized_car not in ('Got car');
 
 -- 1.2) This month 5th
+SELECT
+ '' as 'id', 
+concat('856',customer_tel_1) 'WHATSAPP',
+CONCAT('ເຖິງລູກຄ້າທຸກທ່ານທີຮັກແພງ ແລະ ນັບຖື
+ຂໍຂອບໃຈ ທີ່ນຳໃຊ້ບໍລິການ Lao ASEAN Leasing (LALCO) ຂອງພວກເຮົາຕະຫຼອດມາ.
 
+- ອີງຕາມ: ສັນຍາເລກທີ *',contract_no,'* ອອກຊື່ ທ່ານ *', customer_name,'* 
+ຂໍແຈ້ງໃຫ້ທ່ານລູກຄ້າຊາບວາ ໄດ້ຮອດມື້ກໍານົດເວລາທີ່ຕ້ອງໃດ້ຊໍາລະຕົ້ນທືນ・ດອກເບ້ຍຂອງແຕ່ລະເດືອນວັນທີ5ຂອງເດືອນນີ້ແລ້ວ、ດັ່ງນັນຈື່ງໃດ້ສົ່ງຂໍ້ຄວາມຫາໃຫ້ຊາບ。ກະລຸນາຊໍາລະຕາມວັນເວລາທີ່ໃດ້ກໍານົດດ້ວຍ.
+
+*ໝາຍເຫດ:*
+- ຖ້າຫາກທ່ານລູກຄ້າໄດ້ຊຳລະຄ່າງວດຂອງເດືອນນີ້ມາແລ້ວ ລົບກວນແຈ້ງບິນໃຫ້ພະນັກງານທີ່ຮັບຜິດຊອບເພື່ອຕັດຄ່າງວດດ້ວຍ.
+- ການຊຳລະຄ່າງວດແຕ່ລະຄັ້ງ ເພື່ອງ່າຍໃນການກວດສອບ ແລະ ຕັດຄ່າງວດອັດຕະໂນມັດ ກະລຸນາ ຊຳລະຄ່າງວດຜ່ານ BPAY ຂອງແອັບ ທະນາຄານການຄ້າ (BECEL ONE) ເພາະທາງບໍລິສັດ ໄດ້ຮັບຜິດຊອບຄ່າທຳນຽມໂອນເງິນທັງໝົດ ແລະ ເງິນຂອງທ່ານລູກຄ້າຈະເຂົ້າຫາເລກສັນຍາໂດຍກົງ
+
+ທ່ານສາມາດປຶກສາກັບພວກເຮົາໄດ້ຕະຫຼອດເວລາ. ໂດຍການຕິດຕໍ່ຫາພະນັກງານຮັບຜິດຊອບຂອງທາງບໍລິສັດ. 
+ຂໍຂອບໃຈ.
+
+ສອບຖາມລາຍລະອຽດທີ່:
+ - ພງ ຕັດບິນ: *',em.name,'* ',em.main_contact,'
+ - ພງ ການຕະຫຼາດ: ', ems.name, '- ', ems.main_contact ) 'BODY',
+ case scwm.ccc_no 
+When 361 Then 190
+When 3694 Then 191
+When 3627 Then 192
+When 3804 Then 193
+When 1603 Then 194
+When 2233 Then 195
+When 2349 Then 196
+When 2451 Then 197
+else ''
+end 'file_id'
+FROM sme_collection_wa_msg scwm 
+LEFT JOIN tabsme_Employees em on (scwm.ccc_no = em.staff_no)
+LEFT JOIN tabsme_Employees ems on (scwm.sales_no = ems.staff_no)
+WHERE paid_or_not not in ('already paid') and target  = 1 and scwm.seized_car not in ('Got car');
 
 -- BEFORE 10TH
 -- 2.1) Last month 10th
