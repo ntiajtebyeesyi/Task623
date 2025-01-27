@@ -59,14 +59,18 @@ WHERE c.status in (4)
 and FROM_UNIXTIME(c.disbursed_datetime , '%Y-%m-%d') >= '2024-01-01';
 
 
--- update every day
+-- import db
 SELECT  pm.id as 'Schedule_id', pm.prospect_id, pm.payment_date, p.trading_currency ,pm.payment_amount, pm.principal_amount, pm.interest_amount
 FROM tblpaymentschedule pm
 left join tblcontract c on (c.id = pm.contract_id )
 LEFT JOIN tblprospect p on (p.id = pm.prospect_id)
 WHERE c.status in (4)
-and FROM_UNIXTIME(c.disbursed_datetime , '%Y-%m-%d') >= '2024-01-01'; -- update date by date
+and FROM_UNIXTIME(c.disbursed_datetime , '%Y-%m-%d') >= '2024-01-01' and pm.id > 25134363;
 
+select * from original_payments_schedule ops 
+
+select prospect_id, count(prospect_id) from original_payments_schedule ops 
+group by prospect_id 
 
 
 
