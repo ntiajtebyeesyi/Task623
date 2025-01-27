@@ -69,6 +69,8 @@ and FROM_UNIXTIME(c.disbursed_datetime , '%Y-%m-%d') >= '2024-01-01' and pm.id >
 
 select * from original_payments_schedule ops 
 
+
+-- need to check the original number payment is difference the normal
 select prospect_id, count(prospect_id) from original_payments_schedule ops 
 group by prospect_id 
 
