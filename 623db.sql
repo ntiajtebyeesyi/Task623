@@ -78,5 +78,23 @@ group by prospect_id
 
 
 
+-- for check the target start on jan2025
+  
+CREATE TABLE `623_paymentschedule` (
+  `id` int(11) NOT NULL,
+  `prospect_id` int(11) NOT NULL,
+  `contract_id` int(11) NOT NULL,
+  `payment_date` date NOT NULL,
+  `payment_amount` decimal(20,2) NOT NULL,
+  `principal_amount` decimal(20,2) NOT NULL,
+  `interest_amount` decimal(20,2) NOT NULL,
+  `status` varchar (50) Default null,
+  `collected_id` int (11) default null,
+  PRIMARY KEY (`id`),
+  KEY `contract_id` (`contract_id`),
+  KEY `prospect_id` (`prospect_id`),
+  KEY `payment_date` (`payment_date`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+
 
 
