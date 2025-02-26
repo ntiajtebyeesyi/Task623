@@ -1,3 +1,6 @@
+select @@global.sql_mode global, @@session.sql_mode session;
+set sql_mode = '', global sql_mode = '';
+
 
 -- this table will update contract when disburse just need to add like table contract
 -- will goto >> asset valuation >> tablecar >> maker ...// table customer ....
