@@ -7,8 +7,11 @@ set sql_mode = '', global sql_mode = '';
 -- 1. created table 623_lcontract
 
 CREATE TABLE `623_lcontract` (
+  `date_created` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `date_updated` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `contract_id` int(11) NOT NULL,
   `customer_id` int(11) NOT NULL,
+  `customer_profile` VARCHAR(50) COLLATE utf8mb4_unicode_ci default NULL,
   `prospect_id` int(11) NOT NULL,
   `contract_type` varchar(50) NOT NULL,
   `loan_amount` decimal(18,2) NOT NULL,
@@ -36,121 +39,25 @@ CREATE TABLE `623_lcontract` (
 SELECT * FROM `623_lcontract` l 
 
 -- DROP table `623_lcontract`;
+
+/*ALTER TABLE `623_lcontract`  
+ADD COLUMN `customer_profile` VARCHAR(50) COLLATE utf8mb4_unicode_ci NOT NULL;*/
+
+SELECT count(contract_id) from `623_lcontract` 
+group by customer_profile 
+
 -- --- ---------------------------------------------------------------
 -- first add
 SELECT	
 c.id as contract_id,	
-p.customer_id,	
-p.id AS prospect_id,	
-case p.contract_type when 1 then 'SME Car'	
-when 2 then 'SME Bike' when 3 then 'Car Leasing'	
-when 4 then 'Bike Leasing' when 5 then 'Real Estate'	
-when 6 then 'Trade Finance'ELSE NULL	
-end `contract_type`,	
-p.loan_amount,	
-p.trading_currency,	
-case when p.trading_currency = 'USD' then 1	
-when p.trading_currency = 'LAK' then cr.usd2lak	
-when p.trading_currency = 'THB' then cr.usd2thb	
-end 'exchange_rate',	
-ROUND( p.loan_amount /	
-(case when p.trading_currency = 'USD' then 1	
-when p.trading_currency = 'LAK' then cr.usd2lak	
-when p.trading_currency = 'THB' then cr.usd2thb	
-end) ) 'eqv_usd',	
-p.monthly_interest,	
-CASE p.payment_schedule_type	
-WHEN '1' THEN 'Normal'	
-WHEN '2' THEN 'Bullet'	
-WHEN '3' THEN 'Bullet-MOU'	
-ELSE ''	
-END AS payment_schedule_type,	
-p.no_of_payment,	
-p.min_repayment_period,	
-p.initial_date,	
-p.first_payment_date,	
-p.last_payment_date,	
-c.contract_date,	
-FROM_UNIXTIME(disbursed_datetime , '%Y-%m-%d') 'disbursed_date',	
-case p.call_centre
-when 16 Then 'Attapeu'
-when 56 Then 'Tonpherng(BKO) - Bokeo'
-when 27 Then 'Bokeo'
-when 47 Then 'Pakkading(PKN) - Borikhamxay'
-when 12 Then 'Paksan - Bolikhamxay'
-when 48 Then 'Khong(PKS) - Champasack'
-when 8 Then 'Sukhuma(PKS) - Champasack'
-when 3 Then 'Pakse - Champasack'
-when 10 Then 'Houaphan'
-when 52 Then 'Nhommalth(TKK) - Khammuane'
-when 14 Then 'Thakek - Khammuane'
-when 36 Then 'Khamkeut - Borikhamxay'
-when 22 Then 'Luangnamtha'
-when 53 Then 'Nane(LPB) - Luangprabang'
-when 4 Then 'Luangprabang'
-when 39 Then 'Nam Bak - Luangprabang'
-when 54 Then 'Hoon(ODX) - Oudomxay'
-when 5 Then 'Oudomxay'
-when 21 Then 'Other'
-when 28 Then 'Phongsaly'
-when 50 Then 'Khongxedone(SLV) - Saravane'
-when 15 Then 'Salavan'
-when 40 Then 'Songkhone - Savanakhet'
-when 18 Then 'Phin - Savanakhet'
-when 51 Then 'Atsaphangthong(SVK) - Savanakhet'
-when 13 Then 'Paksong - Savanakhet'
-when 38 Then 'Chongmeg - Champasack'
-when 2 Then 'Savannakhet'
-when 29 Then 'Sekong'
-when 1 Then 'Head Office'
-when 42 Then 'Sikhottabong - Vientiane Capital'
-when 33 Then 'Parkngum - Vientiane Capital'
-when 31 Then 'Hadxayfong - Vientiane Capital'
-when 34 Then 'Xaythany - Vientiane Capital'
-when 32 Then 'Naxaythong - Vientiane Capital'
-when 43 Then 'Xanakharm(VTP) - Vientiane Province'
-when 45 Then 'Thoulakhom(VTP) - Vientiane Province'
-when 44 Then 'Feuang(VTP) - Vientiane Province'
-when 6 Then 'Vientiane province'
-when 26 Then 'Vangvieng - Vientiane province'
-when 55 Then 'Hongsa(XYB) - Xayaboury'
-when 9 Then 'Xainyabuli'
-when 41 Then 'Parklai - Xayaboury'
-when 30 Then 'Xaysomboun'
-when 46 Then 'Khoune(XKH) - Xienkhuang'
-when 11 Then 'Xiengkhouang'
-when 17 Then 'Kham - Xiengkhuang'
-when 7 Then 'Xeno - Savanakhet'
-when 24 Then 'Dongdok - Vientiane Capital'
-when 35 Then 'Saysetha - Attapeu'
-when 37 Then 'Paksong - Champasack'
-end branch, -- https://docs.google.com/spreadsheets/d/1yzG8ASRGIUje9mly31H16JzxdUb0IGoNCYtPUJwiurg/edit?gid=232186766#gid=232186766	
-CONCAT(us.staff_no, '-', us.nickname) AS sales,	
-concat(uc.staff_no, '-', uc.nickname) as credit,	
-concat(ut.staff_no, '-', ut.nickname) as contract,	
-concat(ua.staff_no, '-',ua.nickname) as accounting	
-FROM	
-tblcontract c	
-LEFT JOIN	tblprospect p ON p.id = c.prospect_id	
-LEFT JOIN	tbluser us ON us.id = p.salesperson_id	
-LEFT JOIN	tbluser uc ON uc.id = p.approve_by_credit_manager_id	
-LEFT JOIN	tbluser ut on (ut.id = c.approve_by_contract_staff_id)	
-LEFT JOIN	tbluser ua ON ua.id = c.disbursed_by_account_staff_id	
-left join	tblcurrencyrate cr on (cr.date_for = FROM_UNIXTIME(c.disbursed_datetime , '%Y-%m-%d'))	
-WHERE	
-c.status in (6,7)	
-AND p.contract_type = 1	
-and c.date_closed >= '2025-01-01'
--- AND p.initial_date > '2024-11-01'
-
-
-
-
--- ----------------------------------------------------------------
--- check and add every day
-SELECT	
-c.id as contract_id,	
-p.customer_id,	
+p.customer_id,
+case p.customer_profile
+when 1 then 'New'
+when 2 then 'Current'
+when 3 then 'Dormant'
+when 4 then 'Existing'
+else null
+end `customer_profile`,
 p.id AS prospect_id,	
 case p.contract_type when 1 then 'SME Car'	
 when 2 then 'SME Bike' when 3 then 'Car Leasing'	
@@ -250,7 +157,132 @@ left join	tblcurrencyrate cr on (cr.date_for = FROM_UNIXTIME(c.disbursed_datetim
 WHERE	
 c.status in (4)	
 AND p.contract_type = 1	
-and FROM_UNIXTIME(c.disbursed_datetime , '%Y-%m-%d') >= '2025-02-25' -- update everyday
+-- and c.date_closed >= '2025-01-01'
+-- AND p.initial_date > '2024-11-01'
+
+SELECT c.id, p.customer_profile 
+FROM	
+tblcontract c	
+LEFT JOIN	tblprospect p ON p.id = c.prospect_id	
+WHERE	
+c.status in (4,6,7)	
+AND p.contract_type = 1	
+-- and c.date_closed >= '2025-01-01'
+-- AND p.initial_date > '2024-11-01'
+
+
+-- ----------------------------------------------------------------
+-- check and add every day
+SELECT	
+c.id as contract_id,	
+p.customer_id,
+case p.customer_profile
+when 1 then 'New'
+when 2 then 'Current'
+when 3 then 'Dormant'
+when 4 then 'Existing'
+else null
+end `customer_profile`,
+p.id AS prospect_id,	
+case p.contract_type when 1 then 'SME Car'	
+when 2 then 'SME Bike' when 3 then 'Car Leasing'	
+when 4 then 'Bike Leasing' when 5 then 'Real Estate'	
+when 6 then 'Trade Finance'ELSE NULL	
+end `contract_type`,	
+p.loan_amount,	
+p.trading_currency,	
+case when p.trading_currency = 'USD' then 1	
+when p.trading_currency = 'LAK' then cr.usd2lak	
+when p.trading_currency = 'THB' then cr.usd2thb	
+end 'exchange_rate',	
+ROUND( p.loan_amount /	
+(case when p.trading_currency = 'USD' then 1	
+when p.trading_currency = 'LAK' then cr.usd2lak	
+when p.trading_currency = 'THB' then cr.usd2thb	
+end) ) 'eqv_usd',	
+p.monthly_interest,	
+CASE p.payment_schedule_type	
+WHEN '1' THEN 'Normal'	
+WHEN '2' THEN 'Bullet'	
+WHEN '3' THEN 'Bullet-MOU'	
+ELSE ''	
+END AS payment_schedule_type,	
+p.no_of_payment,	
+p.min_repayment_period,	
+p.initial_date,	
+p.first_payment_date,	
+p.last_payment_date,	
+c.contract_date,	
+FROM_UNIXTIME(disbursed_datetime , '%Y-%m-%d') 'disbursed_date',	
+case p.call_centre
+when 16 Then 'Attapeu'
+when 56 Then 'Tonpherng(BKO) - Bokeo'
+when 27 Then 'Bokeo'
+when 47 Then 'Pakkading(PKN) - Borikhamxay'
+when 12 Then 'Paksan - Bolikhamxay'
+when 48 Then 'Khong(PKS) - Champasack'
+when 8 Then 'Sukhuma(PKS) - Champasack'
+when 3 Then 'Pakse - Champasack'
+when 10 Then 'Houaphan'
+when 52 Then 'Nhommalth(TKK) - Khammuane'
+when 14 Then 'Thakek - Khammuane'
+when 36 Then 'Khamkeut - Borikhamxay'
+when 22 Then 'Luangnamtha'
+when 53 Then 'Nane(LPB) - Luangprabang'
+when 4 Then 'Luangprabang'
+when 39 Then 'Nam Bak - Luangprabang'
+when 54 Then 'Hoon(ODX) - Oudomxay'
+when 5 Then 'Oudomxay'
+when 21 Then 'Other'
+when 28 Then 'Phongsaly'
+when 50 Then 'Khongxedone(SLV) - Saravane'
+when 15 Then 'Salavan'
+when 40 Then 'Songkhone - Savanakhet'
+when 18 Then 'Phin - Savanakhet'
+when 51 Then 'Atsaphangthong(SVK) - Savanakhet'
+when 13 Then 'Paksong - Savanakhet'
+when 38 Then 'Chongmeg - Champasack'
+when 2 Then 'Savannakhet'
+when 29 Then 'Sekong'
+when 1 Then 'Head Office'
+when 42 Then 'Sikhottabong - Vientiane Capital'
+when 33 Then 'Parkngum - Vientiane Capital'
+when 31 Then 'Hadxayfong - Vientiane Capital'
+when 34 Then 'Xaythany - Vientiane Capital'
+when 32 Then 'Naxaythong - Vientiane Capital'
+when 43 Then 'Xanakharm(VTP) - Vientiane Province'
+when 45 Then 'Thoulakhom(VTP) - Vientiane Province'
+when 44 Then 'Feuang(VTP) - Vientiane Province'
+when 6 Then 'Vientiane province'
+when 26 Then 'Vangvieng - Vientiane province'
+when 55 Then 'Hongsa(XYB) - Xayaboury'
+when 9 Then 'Xainyabuli'
+when 41 Then 'Parklai - Xayaboury'
+when 30 Then 'Xaysomboun'
+when 46 Then 'Khoune(XKH) - Xienkhuang'
+when 11 Then 'Xiengkhouang'
+when 17 Then 'Kham - Xiengkhuang'
+when 7 Then 'Xeno - Savanakhet'
+when 24 Then 'Dongdok - Vientiane Capital'
+when 35 Then 'Saysetha - Attapeu'
+when 37 Then 'Paksong - Champasack'
+end branch, -- https://docs.google.com/spreadsheets/d/1yzG8ASRGIUje9mly31H16JzxdUb0IGoNCYtPUJwiurg/edit?gid=232186766#gid=232186766	
+CONCAT(us.staff_no, '-', us.nickname) AS sales,	
+concat(uc.staff_no, '-', uc.nickname) as credit,	
+concat(ut.staff_no, '-', ut.nickname) as contract,	
+concat(ua.staff_no, '-',ua.nickname) as accounting	
+FROM	
+tblcontract c	
+LEFT JOIN	tblprospect p ON p.id = c.prospect_id	
+LEFT JOIN	tbluser us ON us.id = p.salesperson_id	
+LEFT JOIN	tbluser uc ON uc.id = p.approve_by_credit_manager_id	
+LEFT JOIN	tbluser ut on (ut.id = c.approve_by_contract_staff_id)	
+LEFT JOIN	tbluser ua ON ua.id = c.disbursed_by_account_staff_id	
+left join	tblcurrencyrate cr on (cr.date_for = FROM_UNIXTIME(c.disbursed_datetime , '%Y-%m-%d'))	
+WHERE	
+c.status in (4)	
+AND p.contract_type = 1	
+and FROM_UNIXTIME(c.disbursed_datetime , '%Y-%m-%d') >= '2025-02-26' -- update everyday
 -- and c.date_closed >= '2025-01-01'
 -- AND p.initial_date > '2024-11-01'
 
@@ -258,6 +290,12 @@ and FROM_UNIXTIME(c.disbursed_datetime , '%Y-%m-%d') >= '2025-02-25' -- update e
 SELECT prospect_id, disbursed_date from `623_lcontract` 
 order by disbursed_date desc 
 LIMIT 1
+
+
+-- export to google sheet for check https://docs.google.com/spreadsheets/d/1dPsIrk379Q-nvh3oDs5hqeEKskAj1b22QUZgdkRg9-Q/edit?gid=0#gid=0
+
+SELECT * FROM `623_lcontract` l
+order by disbursed_date desc
 
 -- ================================================================
 -- create table close for follow the closed case and monitor it
@@ -306,12 +344,26 @@ and c.date_closed >= '2025-02-026' -- change and update every day
 
 
 SELECT * FROM `623_lcontract_closed` lc 
+order by closed_date DESC
 
 -- -------------------------------------------------------------
 
 SELECT cd.contract_status,count(ct.contract_id) FROM `623_lcontract` ct
 left join `623_lcontract_closed` cd on (ct.contract_id = cd.contract_id)
 GROUP by cd.contract_status 
+
+
+-- --------------------------------------------------------------
+
+SELECT 
+c.contract_no as 'contract_no',
+p.id as 'prospect_id',
+p.penalty_method 
+FROM tblcontract c
+left join tblprospect p on (c.prospect_id = c.id)
+
+
+
 
 -- =================================================================
 -- 2. create table first payment schedule because some time we update the
