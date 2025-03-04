@@ -282,7 +282,7 @@ left join	tblcurrencyrate cr on (cr.date_for = FROM_UNIXTIME(c.disbursed_datetim
 WHERE	
 c.status in (4)	
 AND p.contract_type = 1	
-and FROM_UNIXTIME(c.disbursed_datetime , '%Y-%m-%d') >= '2025-02-26' -- update everyday
+and FROM_UNIXTIME(c.disbursed_datetime , '%Y-%m-%d') >= '2025-02-27' -- update everyday
 -- and c.date_closed >= '2025-01-01'
 -- AND p.initial_date > '2024-11-01'
 
@@ -301,6 +301,8 @@ order by disbursed_date desc
 -- create table close for follow the closed case and monitor it
 
 CREATE TABLE `623_lcontract_closed` (
+  `date_created` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `date_updated` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `contract_id` int(11) NOT NULL,
   `customer_id` int(11) NOT NULL,
   `prospect_id` int(11) NOT NULL,
@@ -340,7 +342,7 @@ FROM
 tblcontract c 
 left join tblprospect p on (c.prospect_id = p.id)
 WHERE c.status in (6,7)
-and c.date_closed >= '2025-02-026' -- change and update every day
+and c.date_closed >= '2025-02-27' -- change and update every day
 
 
 SELECT * FROM `623_lcontract_closed` lc 
